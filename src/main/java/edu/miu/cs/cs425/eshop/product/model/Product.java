@@ -27,8 +27,8 @@ public class Product {
     @NotNull()
     @NotBlank(message = "description can't be blank")
     private String description;
-    @OneToMany
-    private Set<Category> categories = new HashSet<>();
+    @ManyToOne()
+    private Category categories ;
 
     public Product(String name, String description) {
         this.name = name;

@@ -1,5 +1,7 @@
 package edu.miu.cs.cs425.eshop.product.controller;
 
+import edu.miu.cs.cs425.eshop.category.model.Category;
+import edu.miu.cs.cs425.eshop.category.service.CategoryService;
 import edu.miu.cs.cs425.eshop.product.dto.ProductRequest;
 import edu.miu.cs.cs425.eshop.product.dto.ProductResponse;
 import edu.miu.cs.cs425.eshop.product.mapper.ProductMapper;
@@ -16,17 +18,25 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService, ProductMapper productMapper) {
+    public ProductController(
+            ProductService productService,
+            CategoryService categoryService,
+            ProductMapper productMapper
+    ) {
         this.productService = productService;
         this.productMapper = productMapper;
+        this.categoryService = categoryService;
     }
 
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductRequest productRequest) {
-           Product product = productMapper.mapToDomain(productRequest);
-           Product savedProduct = productService.createProduct(product);
-           return ResponseEntity.ok(productMapper.mapToResponse(savedProduct));
+        Product product = productMapper.mapToDomain(productRequest);
+        Category category=categoryService.getCategoryById(productRequest.getCategoryId());
+        product.setCategories(category);
+        Product savedProduct = productService.createProduct(product);
+        return ResponseEntity.ok(productMapper.mapToResponse(savedProduct));
     }
 
     @GetMapping
