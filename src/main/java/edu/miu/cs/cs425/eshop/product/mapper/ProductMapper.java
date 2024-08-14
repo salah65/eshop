@@ -12,7 +12,7 @@ import java.util.List;
 public class ProductMapper implements Mapper<Product, ProductRequest,ProductResponse> {
     @Override
     public ProductResponse mapToResponse(Product product) {
-        return new ProductResponse(product.getId(), product.getName(), product.getDescription());
+        return new ProductResponse(product.getId(), product.getName(), product.getDescription(),product.getCategories());
     }
 
     @Override
@@ -23,7 +23,7 @@ public class ProductMapper implements Mapper<Product, ProductRequest,ProductResp
     @Override
     public List<ProductResponse> mapToResponses(List<Product> products) {
         return products.stream().map((product) -> new ProductResponse(
-                product.getId(), product.getName(), product.getDescription())).toList();
+                product.getId(), product.getName(), product.getDescription(),product.getCategories())).toList();
 
     }
 }

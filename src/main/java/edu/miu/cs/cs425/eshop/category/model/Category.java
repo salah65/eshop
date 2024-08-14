@@ -1,5 +1,7 @@
 package edu.miu.cs.cs425.eshop.category.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import edu.miu.cs.cs425.eshop.product.model.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +25,7 @@ public class Category {
     @NotBlank(message = "Name can't be blank")
     private String name;
 
+    @JsonBackReference()
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categories")
     private List<Product> product;
 
